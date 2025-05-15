@@ -43,7 +43,7 @@ export const StatusCard: React.FC<StatusCardProps> = ({
   };
 
   return (
-    <Card className={cn("overflow-hidden border", className)}>
+    <Card className={cn("overflow-hidden border transition-all hover:shadow-md", className)}>
       <CardHeader className="pb-2">
         <CardTitle className="text-lg flex items-center">
           {icon && <span className="mr-2">{icon}</span>}

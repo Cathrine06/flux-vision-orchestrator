@@ -4,6 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { GitBranch, GitCommit, CheckCircle, XCircle, Clock } from 'lucide-react';
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface DeploymentEvent {
   id: string;
@@ -97,45 +98,49 @@ export const DeploymentHistory = () => {
   }, []);
 
   return (
-    <Card className="h-full">
+    <Card className="h-full transition-all hover:shadow-md">
       <CardHeader>
         <CardTitle>Recent Deployments</CardTitle>
         <CardDescription>Latest application deployments and their status</CardDescription>
       </CardHeader>
-      <CardContent className="space-y-4 overflow-auto max-h-[350px]">
-        {events.map(event => (
-          <div 
-            key={event.id}
-            className={cn(
-              "p-3 border rounded-md animate-fade-in",
-              event.status === 'in-progress' && "border-gitops-blue/30 bg-gitops-blue/5",
-              event.status === 'success' && "border-gitops-green/30 bg-gitops-green/5",
-              event.status === 'failed' && "border-gitops-red/30 bg-gitops-red/5"
-            )}
-          >
-            <div className="flex justify-between items-start">
-              <div className="flex items-center">
-                <span className="mr-2">{getStatusIcon(event.status)}</span>
-                <span className="font-medium">{event.application}</span>
+      <CardContent>
+        <ScrollArea className="h-[350px] pr-4">
+          <div className="space-y-4">
+            {events.map(event => (
+              <div 
+                key={event.id}
+                className={cn(
+                  "p-3 border rounded-md animate-fade-in transition-all hover:shadow-sm",
+                  event.status === 'in-progress' && "border-gitops-blue/30 bg-gitops-blue/5",
+                  event.status === 'success' && "border-gitops-green/30 bg-gitops-green/5",
+                  event.status === 'failed' && "border-gitops-red/30 bg-gitops-red/5"
+                )}
+              >
+                <div className="flex justify-between items-start">
+                  <div className="flex items-center">
+                    <span className="mr-2">{getStatusIcon(event.status)}</span>
+                    <span className="font-medium">{event.application}</span>
+                  </div>
+                  <span className="text-sm text-muted-foreground">{event.timestamp}</span>
+                </div>
+                
+                <div className="mt-2 text-sm">{event.message}</div>
+                
+                <div className="mt-2 flex items-center text-xs text-muted-foreground space-x-4">
+                  <div className="flex items-center">
+                    <GitCommit className="h-3 w-3 mr-1" />
+                    <span>{event.commit}</span>
+                  </div>
+                  <div className="flex items-center">
+                    <GitBranch className="h-3 w-3 mr-1" />
+                    <span>{event.branch}</span>
+                  </div>
+                  <div>by {event.author}</div>
+                </div>
               </div>
-              <span className="text-sm text-muted-foreground">{event.timestamp}</span>
-            </div>
-            
-            <div className="mt-2 text-sm">{event.message}</div>
-            
-            <div className="mt-2 flex items-center text-xs text-muted-foreground space-x-4">
-              <div className="flex items-center">
-                <GitCommit className="h-3 w-3 mr-1" />
-                <span>{event.commit}</span>
-              </div>
-              <div className="flex items-center">
-                <GitBranch className="h-3 w-3 mr-1" />
-                <span>{event.branch}</span>
-              </div>
-              <div>by {event.author}</div>
-            </div>
+            ))}
           </div>
-        ))}
+        </ScrollArea>
       </CardContent>
     </Card>
   );

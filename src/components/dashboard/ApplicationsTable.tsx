@@ -109,7 +109,7 @@ export const ApplicationsTable = () => {
   };
 
   return (
-    <Card className="h-full">
+    <Card className="h-full transition-all hover:shadow-md">
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
           <div>
@@ -122,30 +122,36 @@ export const ApplicationsTable = () => {
         </div>
       </CardHeader>
       <CardContent>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Name</TableHead>
-              <TableHead>Namespace</TableHead>
-              <TableHead>Cluster</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Sync</TableHead>
-              <TableHead>Last Deployed</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {applications.map(app => (
-              <TableRow key={app.id}>
-                <TableCell className="font-medium">{app.name}</TableCell>
-                <TableCell>{app.namespace}</TableCell>
-                <TableCell>{app.cluster}</TableCell>
-                <TableCell>{getStatusBadge(app.status)}</TableCell>
-                <TableCell>{getSyncBadge(app.syncStatus)}</TableCell>
-                <TableCell className="text-muted-foreground">{app.lastDeployed}</TableCell>
+        <div className="rounded-md border">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Name</TableHead>
+                <TableHead>Namespace</TableHead>
+                <TableHead>Cluster</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead>Sync</TableHead>
+                <TableHead>Last Deployed</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHeader>
+            <TableBody>
+              {applications.map(app => (
+                <TableRow key={app.id} className={cn(
+                  app.status === 'Degraded' && "bg-gitops-red/5",
+                  app.status === 'Progressing' && "bg-gitops-blue/5",
+                  "hover:bg-muted/50 transition-colors"
+                )}>
+                  <TableCell className="font-medium">{app.name}</TableCell>
+                  <TableCell>{app.namespace}</TableCell>
+                  <TableCell>{app.cluster}</TableCell>
+                  <TableCell>{getStatusBadge(app.status)}</TableCell>
+                  <TableCell>{getSyncBadge(app.syncStatus)}</TableCell>
+                  <TableCell className="text-muted-foreground">{app.lastDeployed}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
       </CardContent>
     </Card>
   );

@@ -49,7 +49,7 @@ export const SyncChart = () => {
   };
 
   return (
-    <Card className="h-[300px]">
+    <Card className="h-[300px] transition-all hover:shadow-md">
       <CardHeader>
         <CardTitle>Application Sync Status</CardTitle>
       </CardHeader>
@@ -73,7 +73,7 @@ export const SyncChart = () => {
             <Tooltip content={<CustomTooltip />} />
           </PieChart>
         </ResponsiveContainer>
-        <div className="flex justify-center gap-4 mt-2 text-sm">
+        <div className="flex justify-center flex-wrap gap-4 mt-2 text-sm">
           {data.map((entry, index) => (
             <div key={`legend-${index}`} className="flex items-center">
               <div 

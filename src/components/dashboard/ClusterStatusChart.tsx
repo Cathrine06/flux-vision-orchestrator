@@ -73,7 +73,7 @@ export const ClusterStatusChart = () => {
   };
 
   return (
-    <Card>
+    <Card className="transition-all hover:shadow-md">
       <CardHeader>
         <CardTitle>Cluster Resource Utilization</CardTitle>
         <CardDescription>Real-time resource usage across all clusters</CardDescription>
